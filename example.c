@@ -46,7 +46,7 @@ int main()
 {
 	signal(SIGINT, &on_sigint);
 
-	procnotify_init(&procnotify_status);
+	procnotify_init(&procnotify_status, 100000);
 	procnotify_start();
 
 	while (mainalive) {

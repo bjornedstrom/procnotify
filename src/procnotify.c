@@ -15,7 +15,7 @@
 #include "pidreader.h"
 #include "procnotify.h"
 
-static int g_alive = 1;
+static useconds_t g_alive = 1;
 static void (*g_func)(pid_t, int);
 static int g_sleep = 100000;
 static pthread_t g_thr;
@@ -114,13 +114,13 @@ int state_diff(struct pid_state *cur, struct pid_state *prev)
 }
 
 
-int procnotify_init(procnotify_func func)
+int procnotify_init(procnotify_func func, useconds_t poll_interval)
 {
 	g_alive = 1;
 	g_func = func;
 
 	// 0.1 seconds
-	g_sleep = 100000;
+	g_sleep = poll_interval;
 	return 0;
 }
 
