@@ -18,7 +18,16 @@
 /**
  * Callback function for notifications.
  * @pid_t: The pid of the process.
- * @int: Status, one of the PROCNOTIFY_ constants.
+ *
+ * @int: Status, one of the PROCNOTIFY_ constants. The constants have
+ * the following meanings:
+ * PROCNOTIFY_INIT is sent immediately on procnotify_start() for
+ * pids that are already running when procnotify_start() is
+ * called.
+ * PROCNOTIFY_CREAT is sent when a pid has been created after
+ * procnotify_start() was called.
+ * PROCNOTIFY_DESTROY is similar to PROCNOTIFY_CREAT but for
+ * process destruction.
  */
 typedef void (*procnotify_func)(pid_t, int);
 
@@ -35,12 +44,14 @@ typedef void (*procnotify_func)(pid_t, int);
 extern int procnotify_init(procnotify_func func, useconds_t poll_interval);
 
 /**
- * Start the procnotify background thread.
+ * Start the procnotify background thread. The procnotify_func given
+ * in procnotify_init will immediately start to get notifications.
  */
 extern int procnotify_start();
 
 /**
- * Stops the procnotify background thread.
+ * Stops the procnotify background thread. This may block for up to
+ * poll_interval useconds.
  */
 extern int procnotify_stop();
 
