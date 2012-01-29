@@ -26,7 +26,10 @@ typedef void (*procnotify_func)(pid_t, int);
  * Initialize the procnotify library. Should only be called once.
  *
  * @func: A callback function to receive notications on process
- * creation/destruction.
+ * creation/destruction. Note that this callback is invoked from the
+ * procnotify background thread. It is up to the user of the library
+ * to handle synchronization with the main program.
+ *
  * @poll_interval: useconds between when processes are polled.
  */
 extern int procnotify_init(procnotify_func func, useconds_t poll_interval);
